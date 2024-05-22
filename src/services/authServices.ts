@@ -4,6 +4,7 @@ import { LoginDataType } from "../validations/loginSchema";
 import { UserRepositoryTypes } from "./userServices";
 import { sign } from "jsonwebtoken";
 
+
 export const authServices = {
   async login(data: LoginDataType, repository: UserRepositoryTypes) {
     try {

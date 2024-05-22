@@ -1,4 +1,4 @@
-import { date, z } from "zod";
+import { z } from "zod";
 
 export const taskSchema = z
   .object({
@@ -13,23 +13,24 @@ export const taskSchema = z
     description: z
       .string({
         required_error: "description is required!",
-        invalid_type_error: " description must be a string!",
+        invalid_type_error: "description must be a string!",
       })
+      .min(3, "description must have at least 3 characters!")
       .max(255, "max description length exceeded!"),
 
     date: z
       .string({
-        required_error: "password is required!",
-        invalid_type_error: "password must be a string!",
+        required_error: "date is required!",
+        invalid_type_error: "date must be a string!",
       })
       .datetime({ message: "date must be UTC format!" }),
 
     status: z.enum(["pending", "completed"], {
-      required_error: "status is required ",
+      required_error: "status is required!",
       invalid_type_error: "status must be a 'pending' or 'completed'!",
-      description: "ddd",
+      description: "dddd",
     }),
   })
   .strict();
 
-export type UserDataType = z.infer<typeof taskSchema>;
+export type TaskDataType = z.infer<typeof taskSchema>;

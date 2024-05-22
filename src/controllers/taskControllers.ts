@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { taskSchema } from "../validations/taskSchema ";
+import { taskSchema } from "../validations/taskSchema";
+import { taskServices } from "../services/taskServices";
+import { taskRepository } from "../repositories/taskRepository";
 
 export const taskControllers = {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -7,7 +9,7 @@ export const taskControllers = {
       const { title, description, date, status } = taskSchema.parse(req.body);
       const userID = req.userID;
 
-      const taskCreate = {
+      const task = {
         title,
         description,
         date,
@@ -15,7 +17,9 @@ export const taskControllers = {
         idUser: userID,
       };
 
-      return res.status(200).json({ message: "Tasks!", taskCreate });
+      const taskCreated = await taskServices.create(task, taskRepository);
+
+      return res.status(201).json({ message: "task created!", taskCreated });
     } catch (error) {
       return next(error);
     }

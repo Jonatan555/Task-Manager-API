@@ -10,12 +10,12 @@ export const authControllers = {
 
       const token = await authServices.login({ email, password }, userRepository);
 
-     res.cookie(process.env.KEY_TOKEN, token, {
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-      maxAge: 1000 * 60 * 60 * 18. // 18h
-     });
+      res.cookie(process.env.KEY_TOKEN, token, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+        maxAge: 1000 * 60 * 60 * 18, // 18h
+      });
 
       return res.status(200).json({ message: "User logged in!" });
     } catch (error) {
