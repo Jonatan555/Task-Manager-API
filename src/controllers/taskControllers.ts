@@ -29,7 +29,7 @@ export const taskControllers = {
     try {
       const { title, description, date, status } = taskSchema.parse(req.body);
       const userID = req.userID;
-      const {TaskID} = req.params 
+      const { taskID } = req.params;
 
       const task = {
         title,
@@ -39,9 +39,9 @@ export const taskControllers = {
         idUser: userID,
       };
 
-      const taskupdate = await taskServices.update(TaskID, task, taskRepository);
+      const taskUpdate = await taskServices.update(taskID, task, taskRepository);
 
-      return res.status(201).json({ message: "task update!", taskupdate });
+      return res.status(200).json({ message: "task updated!", taskUpdate });
     } catch (error) {
       return next(error);
     }
@@ -50,14 +50,13 @@ export const taskControllers = {
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
       const userID = req.userID;
-      const {TaskID} = req.params 
-      
-      const taskDeleted = await taskServices.delete(TaskID, userID, taskRepository);
+      const { taskID } = req.params;
 
-      return res.status(201).json({ message: "task update!", taskDeleted });
+      const taskDeleted = await taskServices.delete(taskID, userID, taskRepository);
+
+      return res.status(200).json({ message: "task Deleted!", taskDeleted });
     } catch (error) {
       return next(error);
     }
   },
 };
-

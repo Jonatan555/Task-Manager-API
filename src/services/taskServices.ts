@@ -3,7 +3,7 @@ import { TaskDataType } from "../validations/taskSchema";
 import { appError } from "../errors/appError";
 
 export type CreateTaskDataTypes = TaskDataType & { idUser: string };
-export type UpdateTaskDataTypes = TaskDataType & { id_User: string };
+export type UpdateTaskDataTypes = TaskDataType & { id_user: string };
 
 export type TaskRepositoryTypes = {
   createTask(data: CreateTaskDataTypes): Promise<{} | undefined>;
@@ -33,8 +33,9 @@ export const taskServices = {
       throw error;
     }
   },
+
   async update(
-    TaskID: string,
+    taskID: string,
     data: CreateTaskDataTypes,
     repository: TaskRepositoryTypes
   ) {
@@ -42,7 +43,7 @@ export const taskServices = {
       const { title, description, date, status, idUser } = data;
 
       const task = {
-        id: TaskID,
+        id: taskID,
         title,
         description,
         date,
@@ -50,40 +51,34 @@ export const taskServices = {
         idUser,
       };
 
-      const userTask = await repository.getTask(TaskID);
+      const userTask = await repository.getTask(taskID);
       if (!userTask) throw appError("task not found", 404);
 
-      if (userTask.id_User != idUser) {
-        throw appError("user not authorizated to update task", 401);
+      if (userTask.id_user != idUser) {
+        throw appError("user not authorized to update task", 401);
       }
 
-      const taskupdate = await repository.updateTask(task);
+      const taskUpdated = await repository.updateTask(task);
 
-      return taskupdate;
+      return taskUpdated;
     } catch (error) {
       throw error;
     }
   },
-  
-  
-  async delete(
-    TaskID: string,
-    userID: string,
-    repository: TaskRepositoryTypes
-  ) {
-    try {
 
-      const userTask = await repository.getTask(TaskID);
+  async delete(taskID: string, userID: string, repository: TaskRepositoryTypes) {
+    try {
+      const userTask = await repository.getTask(taskID);
       if (!userTask) throw appError("task not found", 404);
 
-      if (userTask.id_User != userID) {
-        throw appError("user not authorizated to delete task", 401);
+      if (userTask.id_user != userID) {
+        throw appError("user not authorized to delete task", 401);
       }
 
-        const taskDeleted = await repository.deleteTask(TaskID);
-        if (!taskDeleted) throw appError("task not deleted!", 500);
+      const taskDelete = await repository.deleteTask(taskID);
+      if (!taskDelete) throw appError("task not deleted!", 500);
 
-      return TaskID;
+      return taskDelete;
     } catch (error) {
       throw error;
     }

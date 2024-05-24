@@ -41,8 +41,11 @@ export const taskRepository = {
 
       const db = await sqliteConnection();
 
-      const querySQL =
-        `UPDATE tasks SET title = ?, description = ?, date = ?, status =? WHERE id = ?;`
+      const querySQL = `
+        UPDATE tasks 
+        SET title = ?, description = ?, date = ?, status = ?
+        WHERE id = ?;
+      `;
 
       await db.run(querySQL, [title, description, date, status, id]);
 
@@ -56,8 +59,7 @@ export const taskRepository = {
     try {
       const db = await sqliteConnection();
 
-      const querySQL =
-        "DELETE FROM tasks WHERE id = ?.";
+      const querySQL = "DELETE FROM tasks WHERE id = ?;";
 
       await db.run(querySQL, [id]);
 
