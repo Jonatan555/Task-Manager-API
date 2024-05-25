@@ -4,7 +4,6 @@ import { LoginDataType } from "../validations/loginSchema";
 import { UserRepositoryTypes } from "./userServices";
 import { sign } from "jsonwebtoken";
 
-
 export const authServices = {
   async login(data: LoginDataType, repository: UserRepositoryTypes) {
     try {
@@ -20,7 +19,7 @@ export const authServices = {
         expiresIn: process.env.EXPIRESIN_TOKEN,
       });
 
-      return token;
+      return { token };
     } catch (error) {
       throw error;
     }

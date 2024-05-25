@@ -7,6 +7,6 @@ export const taskRoutes = Router();
 taskRoutes.use(authMiddleware);
 
 taskRoutes.post("/task", taskControllers.create);
-taskRoutes.get("/task", taskControllers.read);
+taskRoutes.get("/tasks", taskControllers.read);
 taskRoutes.put("/task/:taskID", taskControllers.update);
 taskRoutes.delete("/task/:taskID", taskControllers.delete);
