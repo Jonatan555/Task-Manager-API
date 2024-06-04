@@ -1,11 +1,11 @@
 import { compare } from "bcrypt";
-import { appError } from "../errors/appError";
-import { LoginDataType } from "../validations/loginSchema";
-import { UserRepositoryTypes } from "./userServices";
 import { sign } from "jsonwebtoken";
+import { appError } from "../errors/appError";
+import { LoginDataTypes } from "../validations/loginSchema";
+import { UserRepositoryTypes } from "./userServices";
 
 export const authServices = {
-  async login(data: LoginDataType, repository: UserRepositoryTypes) {
+  async login(data: LoginDataTypes, repository: UserRepositoryTypes) {
     try {
       const { email, password } = data;
 
@@ -19,7 +19,7 @@ export const authServices = {
         expiresIn: process.env.EXPIRESIN_TOKEN,
       });
 
-      return { token, id: user.id };
+      return { id: user.id, token };
     } catch (error) {
       throw error;
     }
